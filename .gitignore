@@ -5,9 +5,6 @@ node_modules
 
 dist
 
-# code coverage
-coverage
-*.lcov
 
 
 

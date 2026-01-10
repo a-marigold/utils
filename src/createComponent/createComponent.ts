@@ -9,11 +9,8 @@ import { write } from 'bun';
  *
  * @param name - name of component. For example, `Button`.
  */
-export const createComponent = (
-    path: string,
-    name: string
-): Promise<(number | void)[]> => {
-    const componentDirPath = path + name + '/';
+export const createComponent = (name: string): Promise<(number | void)[]> => {
+    const componentDirPath = './' + name + '/';
 
     return mkdir(componentDirPath).then(() => {
         return Promise.all([
@@ -25,7 +22,8 @@ export const createComponent = (
 export default function` +
                     name +
                     `() {
-    return <div> </div>;            
+    return <div> </div>;  
+}          
             `
             ),
 
