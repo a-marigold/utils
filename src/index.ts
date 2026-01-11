@@ -6,9 +6,21 @@ import type { Utils, UtilsInit } from './types';
 
 import { createComponent } from './createComponent';
 
-const utilsInit: UtilsInit = [['cc', createComponent]];
+import { help } from './help';
 
-const utils: Utils = new Map(utilsInit);
+const utilsInit: UtilsInit = [
+    ['cc', createComponent],
+    ['help', help],
+];
+
+/**
+ *
+ *
+ *  Map with all utils
+ *
+ *
+ */
+export const utils: Utils = new Map(utilsInit);
 
 const commandName = argv[2];
 
