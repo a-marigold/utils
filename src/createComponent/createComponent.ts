@@ -1,15 +1,17 @@
 import { mkdir } from 'node:fs/promises';
 import { write } from 'bun';
 
+import type { UtilFunction } from '../types';
+
 /**
  *
- * Creates react component directory, component file, CSS module file there.
- *
- * @param path - path of new component directory. For example, `./`.
+ * Creates react component directory, component file and CSS module file there.
  *
  * @param name - name of component. For example, `Button`.
  */
-export const createComponent = (name: string): Promise<(number | void)[]> => {
+export const createComponent: UtilFunction = (
+    name: string | undefined
+): Promise<(number | void)[]> => {
     const componentDirPath = './' + name + '/';
 
     return mkdir(componentDirPath).then(() => {

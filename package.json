@@ -6,6 +6,9 @@
     "scripts": {
         "build": "bun build ./src/index.ts --minify --bytecode --compile --outfile=./dist/utils"
     },
+    "bin": {
+        "utils": "./src/index.ts"
+    },
     "devDependencies": {
         "@types/bun": "latest"
     },
