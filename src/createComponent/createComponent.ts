@@ -18,8 +18,9 @@ export const createComponent = (name: string): Promise<(number | void)[]> => {
                 componentDirPath + name + '.tsx',
                 'import __COMPONENT_STYLES__ from "./' +
                     name +
-                    `.module.scss";'
-export default function` +
+                    `.module.scss";
+
+export default function ` +
                     name +
                     `() {
     return <div> </div>;  
