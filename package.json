@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "module": "index.ts",
     "type": "module",
-    "private": true,
+    "private": false,
     "scripts": {
         "build": "bun build ./src/index.ts --minify --bytecode --compile --outfile=./dist/utils"
     },

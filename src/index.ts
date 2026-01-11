@@ -16,7 +16,7 @@ const commandArguments: string[] = argv.slice(3, argv.length);
 const command = utils.get(commandName);
 
 if (!command) {
-    stderr.write('Command "' + commandName + '" is not defined \n');
+    stderr.write('Command "' + commandName + '" is not defined\n');
 
     exit(127);
 }
@@ -27,7 +27,7 @@ Promise.resolve(command(...commandArguments))
     .then(() => {
         const commandExecEnd = performance.now();
 
-        stdout.write('Done in ' + (commandExecEnd - commandExecStart) + 'ms');
+        stdout.write('Done in ' + (commandExecEnd - commandExecStart) + 'ms\n');
     })
     .catch((error) => {
         if (error instanceof Error) {

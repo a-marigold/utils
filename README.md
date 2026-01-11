@@ -1,17 +1,12 @@
-<p align='center'>
-# utils
-</p>
+# <p align='center'> **utils** </p>
 
 ### Installation
 
 ```bash
 git clone https://github.com/a-marigold/utils utils # clones the repository to directory "utils"
-
 cd utils
 
 bun run build # compiles code to standalone binary with JSC bytecode and Bun runtime
-
-
 
 bun install -g .
 ```
