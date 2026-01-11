@@ -1,5 +1,6 @@
 {
     "name": "utils",
+    "version": "1.0.0",
     "module": "index.ts",
     "type": "module",
     "private": true,
@@ -7,7 +8,7 @@
         "build": "bun build ./src/index.ts --minify --bytecode --compile --outfile=./dist/utils"
     },
     "bin": {
-        "utils": "./src/index.ts"
+        "utils": "./dist/utils.exe"
     },
     "devDependencies": {
         "@types/bun": "latest"

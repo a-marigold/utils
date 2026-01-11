@@ -12,6 +12,10 @@ import type { UtilFunction } from '../types';
 export const createComponent: UtilFunction = (
     name: string | undefined
 ): Promise<(number | void)[]> => {
+    if (!name) {
+        throw new Error('');
+    }
+
     const componentDirPath = './' + name + '/';
 
     return mkdir(componentDirPath).then(() => {
