@@ -10,13 +10,18 @@ import type { UtilFunction } from '../types';
  * @param name - name of component. For example, `Button`.
  */
 export const createComponent: UtilFunction = (
+    path: string | undefined,
     name: string | undefined
 ): Promise<(number | void)[]> => {
-    if (!name) {
-        throw new Error('');
+    if (!path || !name) {
+        throw new Error('Path and Name are required');
     }
 
-    const componentDirPath = './' + name + '/';
+    if (!path.endsWith('/')) {
+        path += '/';
+    }
+
+    const componentDirPath = path + name + '/';
 
     return mkdir(componentDirPath).then(() => {
         return Promise.all([
