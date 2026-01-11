@@ -1,7 +1,7 @@
-import { stdin, stdout, stderr } from 'bun';
+import { argv, stdout, stderr } from 'bun';
+import { exit } from 'node:process';
 
 import type { Utils, UtilsInit } from './types';
-import { COMMAND_START_REGEXP, COMMAND_REGEXP } from './constants';
 
 import { createComponent } from './createComponent';
 
@@ -9,56 +9,16 @@ const utilsInit: UtilsInit = [['cc', createComponent]];
 
 const utils: Utils = new Map(utilsInit);
 
-stdin
-    .text()
-    .then((input) => {
-        let commandName = '';
+const commandName = argv[2];
 
-        const commandArguments: string[] = [];
+const commandArguments: string[] = argv.slice(3, argv.length);
+const command = utils.get(commandName);
 
-        const inputLength = input.length;
+stdout.write('ARGS: ' + argv.join(' ') + '\n');
 
-        let pos = 0;
+if (!command) {
+    stderr.write('Command "' + commandName + '" is not defined \n');
+    exit(1);
+}
 
-        main: while (pos < inputLength) {
-            if (input[pos] === ' ') {
-                pos++;
-
-                continue main;
-            }
-
-            if (COMMAND_START_REGEXP.test(input[pos])) {
-                const startPos = pos;
-
-                while (pos < inputLength && COMMAND_REGEXP.test(input[pos])) {
-                    pos++;
-                }
-
-                const identifier = input.slice(startPos, pos);
-                if (utils.has(identifier)) {
-                    commandName = identifier;
-                } else {
-                    commandArguments.push(identifier);
-                }
-
-                pos++;
-
-                continue main;
-            }
-
-            throw new Error('Unexpected symbol in standard input string');
-        }
-
-        const command = utils.get(commandName);
-
-        if (!command) {
-            throw new Error('Command "' + commandName + '" is not defined');
-        }
-
-        return command(...commandArguments);
-    })
-    .catch((error) => {
-        if (error instanceof Error) {
-            stderr.write(error.message);
-        }
-    });
+command(...commandArguments);
