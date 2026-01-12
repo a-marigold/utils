@@ -1,6 +1,6 @@
-import { stdout } from 'bun';
-
 /**
+ *
+ *
  *
  *
  * Type of object that is logged in table from `help` command
@@ -14,7 +14,7 @@ const helpUtils: HelpUtil[] = [
         Command: 'cc',
 
         Description:
-            'reates directory with provided name with two files: - react component `[Name].tsx` and - SCSS module `[Name].module.scss`',
+            'Creates directory with provided name with two files: - react component `[Name].tsx` and - SCSS module `[Name].module.scss`',
     },
     {
         Name: 'Help',
