@@ -4,7 +4,9 @@
  *
  *
  * Type of object that is logged in table from `help` command
+ *
  */
+
 type HelpUtil = { Name: string; Command: string; Description: string };
 
 const helpUtils: HelpUtil[] = [
@@ -19,7 +21,7 @@ const helpUtils: HelpUtil[] = [
     {
         Name: 'Help',
 
-        Command: 'Help',
+        Command: 'help',
 
         Description: `Outputs all utils`,
     },

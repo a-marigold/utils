@@ -1,6 +1,6 @@
 import { mkdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { write } from 'bun';
+import { stdout, write } from 'bun';
 
 import type { UtilFunction } from '../types';
 
@@ -16,35 +16,60 @@ export const createComponent: UtilFunction = (
     destination: string | undefined,
 
     name: string | undefined,
-): Promise<(number | void)[]> => {
-    if (!destination || !name) {
-        throw new Error('Path and Name are required');
+): Promise<void> => {
+    if (!destination && !name) {
+        return Promise.reject(
+            new Error('Path and Name of component are required'),
+        );
+    }
+
+    if (!destination) {
+        return Promise.reject(new Error('Path is required'));
+    }
+
+    if (!name) {
+        return Promise.reject(new Error('Name of component is required'));
     }
 
     const componentDirPath = resolve(destination + '/' + name) + '/';
 
-    return mkdir(componentDirPath).then(() => {
-        return Promise.all([
-            write(
-                componentDirPath + name + '.tsx',
-                'import __COMPONENT_STYLES__ from "./' +
-                    name +
-                    `.module.scss";
+    return mkdir(componentDirPath).then(
+        () => {
+            return Promise.all([
+                write(
+                    componentDirPath + name + '.tsx',
+                    'import __COMPONENT_STYLES__ from "./' +
+                        name +
+                        `.module.scss";
 
 export default function ` +
-                    name +
-                    `() {
+                        name +
+                        `() {
     return <div> </div>;  
 }          
             `,
-            ),
+                ),
 
-            write(componentDirPath + name + '.module.scss', ''),
+                write(componentDirPath + name + '.module.scss', ''),
 
-            write(
-                componentDirPath + 'index.ts',
-                'export { default } from "./' + name + '";',
-            ),
-        ]);
-    });
+                write(
+                    componentDirPath + 'index.ts',
+                    'export { default } from "./' + name + '";',
+                ),
+            ]).then(() => {
+                stdout.write(
+                    '\x1b[32m+\x1b[0m Component \x1b[1m' +
+                        name +
+                        '\x1b[0m was created\n',
+                );
+            });
+        },
+        (error) => {
+            stdout.write(
+                '\x1b[1;30;47m tip \x1b[0m \x1b[37mmaybe the path should be wrapped with quotes\x1b[0m\n',
+            );
+
+            throw error;
+        },
+    );
 };
