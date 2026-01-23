@@ -1,5 +1,5 @@
 import { mkdir } from 'node:fs/promises';
-import { normalize } from 'node:path';
+import { resolve } from 'node:path';
 import { write } from 'bun';
 
 import type { UtilFunction } from '../types';
@@ -15,13 +15,13 @@ import type { UtilFunction } from '../types';
 export const createComponent: UtilFunction = (
     destination: string | undefined,
 
-    name: string | undefined
+    name: string | undefined,
 ): Promise<(number | void)[]> => {
     if (!destination || !name) {
         throw new Error('Path and Name are required');
     }
 
-    const componentDirPath = normalize(destination + name + '/');
+    const componentDirPath = resolve(destination + '/' + name) + '/';
 
     return mkdir(componentDirPath).then(() => {
         return Promise.all([
@@ -36,14 +36,14 @@ export default function ` +
                     `() {
     return <div> </div>;  
 }          
-            `
+            `,
             ),
 
             write(componentDirPath + name + '.module.scss', ''),
 
             write(
                 componentDirPath + 'index.ts',
-                'export { default } from "./' + name + '";'
+                'export { default } from "./' + name + '";',
             ),
         ]);
     });

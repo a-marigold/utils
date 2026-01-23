@@ -19,12 +19,14 @@ const utilsInit: UtilsInit = [
  *  Map with all utils
  *
  *
+ *
  */
 export const utils: Utils = new Map(utilsInit);
 
 const commandName = argv[2];
 
 const commandArguments: string[] = argv.slice(3, argv.length);
+
 const command = utils.get(commandName);
 
 if (!command) {
@@ -39,12 +41,22 @@ Promise.resolve(command(...commandArguments))
     .then(() => {
         const commandExecEnd = performance.now();
 
-        stdout.write('Done in ' + (commandExecEnd - commandExecStart) + 'ms\n');
+        stdout.write(
+            'Done in \x1b[36m' +
+                (commandExecEnd - commandExecStart) +
+                'ms\x1b[0m\n',
+        );
     })
     .catch((error) => {
+        let message = '';
+
         if (error instanceof Error) {
-            stderr.write(error.message);
+            message = error.message;
+        } else {
+            message = 'Unknown error';
         }
+
+        stderr.write('\x1b[31m' + message + '\x1b[0m\n');
 
         process.exit(1);
     });
